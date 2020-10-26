@@ -192,6 +192,9 @@ html[dark] #ytc-filter {
         vertical-align: middle;
       }
 
+      &.member {
+        color: #107516;
+      }
       &.author {
         color: $moderator-color;
         .author-icon {

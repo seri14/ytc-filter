@@ -66,6 +66,7 @@
             <select id="filter-type" v-model="filterType">
               <option value="msgIncludes">Text includes</option>
               <option value="author">Author is</option>
+              <option value="isMember">Is member</option>
               <option value="isModerator">Is moderator</option>
               <option value="isOwner">Is owner</option>
               <option value="regex">Regex</option>
@@ -113,6 +114,7 @@
               <span v-if="filter.author">Author: {{ filter.author }}</span>
               <span v-else-if="filter.msgIncludes">Text includes: {{ filter.msgIncludes }}</span>
               <span v-else-if="filter.regex">Regex: {{ filter.regex }}</span>
+              <span v-else-if="filter.isMember">Is member</span>
               <span v-else-if="filter.isModerator">Is moderator</span>
               <span v-else-if="filter.isOwner">Is owner</span>
               <button type="button" class="sm-btn" @click="removeFilter(filter)" title="Remove filter">
@@ -227,7 +229,7 @@
               </svg>
             </button>
           </span>
-          <span class="vc-author" :class="{ author: msg.authorType === 'moderator', owner: msg.authorType === 'owner' }">
+          <span class="vc-author" :class="{ member: msg.authorType === 'member', author: msg.authorType === 'moderator', owner: msg.authorType === 'owner' }">
             {{ msg.author
             }}<svg v-if="msg.authorType === 'moderator'" class="author-icon" viewBox="0 0 16 16" preserveAspectRatio="xMidYMid meet" focusable="false" width="16" height="16">
               <g>
@@ -408,6 +410,8 @@ export default {
           if (caseSensitive || caseInsensitive) {
             this.addMessage(msg)
           }
+        } else if (filter.isMember && msg.authorType === 'member') {
+          this.addMessage(msg)
         } else if (filter.isModerator && msg.authorType === 'moderator') {
           this.addMessage(msg)
         } else if (filter.isOwner && msg.authorType === 'owner') {
